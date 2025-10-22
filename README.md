@@ -23,5 +23,29 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
 - BD
 - FE sencillo para persistencia de datos
 
+## Diagrama:
+@startuml
+class Shampoo {
+- int id
+- String nombre
+- double precio
+- int stock
+  }
+
+class ShampooRepositorio {
+- List<Shampoo> shampoos
++ void guardar(Shampoo s)
++ List<Shampoo> buscarTodos()
++ void borrarPorID(int id)
+  }
+
+class ShampooApp {
++ main(String[] args)
+  }
+
+ShampooRepositorio "1" *-- "*" Shampoo
+ShampooApp ..> ShampooRepositorio
+@enduml
+
 ## Autor
 - Evelina Caparrós
