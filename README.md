@@ -24,6 +24,9 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
 - FE sencillo para persistencia de datos
 
 ## Diagrama:
+
+![Diagrama UML](uml.png)
+
 @startuml
 class Shampoo {
 - int id
