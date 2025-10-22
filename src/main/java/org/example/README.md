@@ -6,7 +6,8 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
 ## Detalles del desarrollo
 - Lenguaje: Java
 - Herramientas: Maven, JUnit
-#structura del proyecto
+
+# Estructura del proyecto
 - `src/main/java/org/example/`: Código fuente principal
 - `Shampoo.java`: Clase modelo de producto
 - `ShampooRepositorio.java`: Lógica de acceso a datos
@@ -17,7 +18,8 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
 - Listado de productos
 - Persistencia en archivo de texto
 - Interfaz de usuario por consola (CLI)
-#Proximamente:
+
+# Proximamente:
 - BD
 - FE sencillo para persistencia de datos
 
