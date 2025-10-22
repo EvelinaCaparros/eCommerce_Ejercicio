@@ -25,7 +25,7 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
 
 ## Diagrama:
 
-![Diagrama UML](uml.png)
+![Diagrama UML](UML.png)
 
 @startuml
 class Shampoo {
