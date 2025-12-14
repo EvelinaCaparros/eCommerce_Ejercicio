@@ -29,19 +29,19 @@ public class ShampooController {
 
     // 3. Buscar shampoo por ID
     @GetMapping("/{id}")
-    public Shampoo buscarPorId(@PathVariable int id) {
+    public Shampoo buscarPorId(@PathVariable("id") int id) {
         return service.buscarShampoo(id);
     }
 
     // 4. Actualizar shampoo (solo campos permitidos)
     @PutMapping("/{id}")
-    public Shampoo actualizar(@PathVariable int id, @RequestBody Shampoo shampoo) {
+    public Shampoo actualizar(@PathVariable("id") int id, @RequestBody Shampoo shampoo) {
         return service.actualizarShampoo(id, shampoo.getNombre(), shampoo.getPrecio(), shampoo.getStock());
     }
 
     // 5. Eliminar shampoo (lógico)
     @DeleteMapping("/{id}")
-    public boolean eliminar(@PathVariable int id) {
+    public boolean eliminar(@PathVariable("id") int id) {
         return service.eliminarShampoo(id);
     }
 
@@ -59,4 +59,3 @@ public class ShampooController {
         return service.listarShampoosEliminados();
     }
 }
-

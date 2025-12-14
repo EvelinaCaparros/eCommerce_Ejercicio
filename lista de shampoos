@@ -1,6 +1,15 @@
-1,PruebaYaNoSe,40.0,400,0
-2,Hola,12.0,12,1
-3,PruebaYaNoSe2,42.0,6006,1
-5,PruebaYaNoSe4,44.0,987654321,1
-6,PruebaYaNoSe5,12.0,5423456,1
-7,Head & Shoulders,123.45,10,1
+1,Head & Shoulders,200.0,20,1
+2,Sedal,50.0,0,1
+3,Pantene,120.5,100,0
+4,Clear Men,80.0,5,1
+5,Herbal Essences,300.0,999999,1
+6,Shampoo Económico,10.0,1,1
+7,Shampoo Premium,999.99,2,1
+8,Shampoo Eliminado,25.0,50,0
+9,Repetido,44.0,987654321,1
+10,Repetido,44.0,987654321,1
+11,Sin Stock,15.0,0,1
+12,Ultra Barato,1.0,1000,1
+13,Ultra Caro,10000.0,3,1
+14,Nombre Largo de Prueba para Shampoo,55.5,10,1
+15,ShampooConCaracteresEspeciales@#%!,60.0,7,1
