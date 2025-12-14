@@ -53,6 +53,16 @@ Al listar, solo se muestran los shampoos habilitados (`estado = 1`). Los elimina
    ```
 3. La API estará disponible en: [http://localhost:8080/api/shampoos](http://localhost:8080/api/shampoos)
 
+## Cómo correr los tests unitarios
+
+Para ejecutar los tests unitarios del proyecto, usa el siguiente comando:
+
+```sh
+mvn test
+```
+
+Esto ejecutará todos los tests definidos en la carpeta `src/test/java` y mostrará un resumen de los resultados en la consola.
+
 ## Endpoints y ejemplos curl
 
 ### 1. Crear shampoo
