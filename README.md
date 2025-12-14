@@ -28,6 +28,19 @@ Cada shampoo tiene las siguientes propiedades:
 
 Al listar, solo se muestran los shampoos habilitados (`estado = 1`). Los eliminados pueden consultarse aparte mediante el endpoint correspondiente.
 
+## Supuestos y limitaciones del sistema
+
+- El stock se maneja solo como cantidad de unidades (no por cajas ni otros formatos).
+- El precio se maneja en una única moneda (por defecto, pesos argentinos o la moneda local del usuario; no hay conversión ni símbolo).
+- No hay control de usuarios ni autenticación: cualquier usuario puede operar sobre los datos.
+- No se valida la unicidad del nombre de shampoo en el backend (se recomienda hacerlo en el frontend).
+- El campo `estado` solo permite dos valores: `1` (habilitado) y `0` (eliminado lógicamente).
+- No hay control de fechas de alta, baja ni modificación.
+- No se maneja historial de cambios ni auditoría.
+- El archivo `lista de shampoos` es la única fuente de persistencia (no hay base de datos relacional-por ahora-).
+- No se contemplan impuestos, descuentos ni promociones.
+- No hay validación de formato para caracteres especiales en el nombre.
+
 ## Consideraciones para el Frontend
 - Validar que no se creen shampoos con nombres repetidos.
 - Mostrar mensajes claros ante datos inválidos o duplicados.
@@ -184,17 +197,3 @@ Main ..> ShampooRepositorio
 @enduml
 ```
 Esto generará un diagrama de clases actualizado con las relaciones y atributos principales del sistema.
-
-## Supuestos y limitaciones del sistema
-
-- El stock se maneja solo como cantidad de unidades (no por cajas ni otros formatos).
-- El precio se maneja en una única moneda (por defecto, pesos argentinos o la moneda local del usuario; no hay conversión ni símbolo).
-- No hay control de usuarios ni autenticación: cualquier usuario puede operar sobre los datos.
-- No se valida la unicidad del nombre de shampoo en el backend (se recomienda hacerlo en el frontend).
-- El campo `estado` solo permite dos valores: `1` (habilitado) y `0` (eliminado lógicamente).
-- No hay control de fechas de alta, baja ni modificación.
-- No se maneja historial de cambios ni auditoría.
-- El archivo `lista de shampoos` es la única fuente de persistencia (no hay base de datos relacional-por ahora-).
-- No se contemplan impuestos, descuentos ni promociones.
-- No hay validación de formato para caracteres especiales en el nombre.
-
