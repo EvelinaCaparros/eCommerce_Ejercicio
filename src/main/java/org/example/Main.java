@@ -21,6 +21,7 @@ public class Main {
                 4. Actualizar shampoo
                 5. Eliminar shampoo
                 6. Eliminar todos los shampoos
+                7. Listar shampoos eliminados
                 0. Salir
                 """);
 
@@ -49,12 +50,35 @@ public class Main {
                 }
                 case 4 -> {
                     int id = utils.validarInt("ID a actualizar: ", sc);
-                    String nombre = utils.validarString("Nuevo nombre: ",sc);
-                    double precio = utils.validarDouble("Nuevo precio: ", sc);
-                    int stock = utils.validarInt("Nuevo stock: ", sc);
-
-                    Shampoo actualizado = service.actualizarShampoo(id, nombre, precio, stock);
-                    System.out.println(actualizado != null ? "Actualizado: " + actualizado : "No encontrado");
+                    Shampoo shampoo = service.buscarShampoo(id);
+                    if (shampoo == null) {
+                        System.out.println("No encontrado");
+                        break;
+                    }
+                    boolean actualizar = true;
+                    while (actualizar) {
+                        System.out.println("¿Qué desea modificar?\n1. Nombre\n2. Precio\n3. Stock\n0. Volver");
+                        int opcion = utils.validarInt("Opción: ", sc);
+                        switch (opcion) {
+                            case 1 -> {
+                                String nombre = utils.validarString("Nuevo nombre: ", sc);
+                                service.actualizarShampoo(id, nombre, shampoo.getPrecio(), shampoo.getStock());
+                                System.out.println("Nombre actualizado");
+                            }
+                            case 2 -> {
+                                double precio = utils.validarDouble("Nuevo precio: ", sc);
+                                service.actualizarShampoo(id, shampoo.getNombre(), precio, shampoo.getStock());
+                                System.out.println("Precio actualizado");
+                            }
+                            case 3 -> {
+                                int stock = utils.validarInt("Nuevo stock: ", sc);
+                                service.actualizarShampoo(id, shampoo.getNombre(), shampoo.getPrecio(), stock);
+                                System.out.println("Stock actualizado");
+                            }
+                            case 0 -> actualizar = false;
+                            default -> System.out.println("Opción inválida");
+                        }
+                    }
                 }
                 case 5 -> {
                     int id = utils.validarInt("ID a eliminar: ", sc);
@@ -66,6 +90,12 @@ public class Main {
                         service.eliminarShampoo(s.getId());
                     }
                     System.out.println("Todos los shampoos han sido eliminados.");
+                }
+                case 7 -> {
+                    System.out.println("Lista de shampoos eliminados:");
+                    for (Shampoo s : service.listarShampoosEliminados()) {
+                        System.out.println(s);
+                    }
                 }
                 case 0 -> running = false;
                 default -> System.out.println("Opción inválida");

@@ -4,7 +4,9 @@ Acá va la logica del negocio.
 package org.example;
 
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ShampooService {
     private final ShampooRepositorio repository;
 
@@ -38,5 +40,9 @@ public class ShampooService {
 
     public boolean eliminarShampoo(int id) {
         return repository.borrarPorID(id);
+    }
+
+    public List<Shampoo> listarShampoosEliminados() {
+        return repository.buscarEliminados();
     }
 }
