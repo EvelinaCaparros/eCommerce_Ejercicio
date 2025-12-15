@@ -135,15 +135,24 @@ Cada shampoo tiene las siguientes propiedades:
   - 500 Internal Server Error: Error inesperado en el servidor
   - 405 Method Not Allowed: Método HTTP incorrecto
 
-## Validaciones y manejo de errores
+> **Validaciones y manejo de errores:** 
 - El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo. Si el nombre es vacío o nulo, devuelve 400 Bad Request con un mensaje claro.
 - Si los datos son inválidos, se lanza una excepción clara y no se guarda el producto.
-- El manejo de la base de datos es atómico y seguro: si ocurre un error de escritura o lectura, se lanza una excepción y no se pierden datos previos.
 
 ## Tests unitarios y plan de pruebas
 - Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooRepositorioTest.java` (obsoleto) y `src/test/java/org/example/ShampooServiceTest.java`.
 - Se cubren casos de creación, validaciones, búsqueda, listado, eliminación y persistencia.
 - El plan de pruebas detallado está en `src/test/java/org/example/PLAN_PRUEBAS.md`.
+- Evidencias en el archivo correspondiente.
+
+## Ejecución de tests (obsoleto)
+Para ejecutar los tests unitarios:
+
+```
+mvn test
+```
+
+Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooRepositorioTest.java` y validará la robustez del repositorio.
 
 ## Supuestos y limitaciones del sistema
 
@@ -170,15 +179,6 @@ Cada shampoo tiene las siguientes propiedades:
   - Si recibes una respuesta HTML de error 400, revisa que el parámetro sea un número válido.
   - Este comportamiento es estándar en servidores Java y no puede ser interceptado por el backend. (Juro lo intenté)
 
-## Ejecución de tests (obsoleto)
-Para ejecutar los tests unitarios:
-
-```
-mvn test
-```
-
-Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooRepositorioTest.java` y validará la robustez del repositorio.
-
 ## Diagrama UML
 ![Diagrama UML](UML.png)
 
@@ -192,6 +192,5 @@ Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooR
 - Gestión de categorías y marcas de shampoo.
 - API para carga masiva de productos.
 - Documentación Swagger para la API REST.
-- Tests de integración y de endpoints REST.
 - Mejor manejo de errores y mensajes personalizados para todos los casos.
 - Frontend web.
