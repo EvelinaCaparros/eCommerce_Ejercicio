@@ -128,11 +128,10 @@ Cada shampoo tiene las siguientes propiedades:
   ```
 - **Ejemplo de respuesta exitosa:**
   ```json
-  {"resultado": "ELIMINADO"}
+  {"resultado": "El producto ya fue previamente eliminado."}
   ```
 - **Errores posibles:**
   - 404 Not Found: No existe el shampoo con ese ID
-  - 410 Gone: El shampoo ya estaba eliminado
   - 500 Internal Server Error: Error inesperado en el servidor
   - 405 Method Not Allowed: Método HTTP incorrecto
 
