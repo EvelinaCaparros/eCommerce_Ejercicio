@@ -135,7 +135,7 @@ Cada shampoo tiene las siguientes propiedades:
   - 500 Internal Server Error: Error inesperado en el servidor
   - 405 Method Not Allowed: Método HTTP incorrecto
 
-> **Validaciones y manejo de errores:** El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo. Si el nombre es vacío o nulo, devuelve 400 Bad Request con un mensaje claro. Si los datos son inválidos, se lanza una excepción clara y no se guarda el producto.
+> **Validaciones y manejo de errores:** El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo. Si el nombre es vacío o nulo, devuelve 400 Bad Request con un mensaje claro.
 
 ## Tests unitarios y plan de pruebas
 - Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooRepositorioTest.java` (obsoleto) y `src/test/java/org/example/ShampooServiceTest.java`.
