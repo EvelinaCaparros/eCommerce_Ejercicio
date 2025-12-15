@@ -1,0 +1,21 @@
+2025-12-14T22:54:53-03:00 - Inicio del log de transacciones
+
+2025-12-14T23:04:25 - INICIO - Servicio iniciado correctamente
+2025-12-14T23:04:32 - CREAR - Shampoo: ijyhtgfr, id: 34
+2025-12-14T23:04:58 - ACTUALIZAR - Shampoo: holo, id: 3
+2025-12-14T23:05:09 - ELIMINAR - Intento fallido, id: 1111 no encontrado
+2025-12-14T23:05:22 - ELIMINAR - Shampoo eliminado, id: 1
+2025-12-14T23:05:24 - ELIMINAR - Ya eliminado, id: 1
+2025-12-14T23:05:39 - HABILITAR - Shampoo habilitado, id: 1
+2025-12-14T23:05:44 - HABILITAR - Ya habilitado, id: 1
+2025-12-14T23:10:03 - INICIO - Servicio iniciado correctamente
+2025-12-14T23:10:08 - HABILITAR - Ya habilitado, id: 1
+2025-12-14T23:10:10 - CREAR - Shampoo: ijyhtgfr, id: 35
+2025-12-14T23:10:17 - ACTUALIZAR - Shampoo: holo, id: 3
+2025-12-14T23:10:21 - ACTUALIZAR - Shampoo: holo, id: 1
+2025-12-14T23:10:25 - ELIMINAR - Shampoo eliminado, id: 1
+2025-12-14T23:13:55 - INICIO - Servicio iniciado correctamente
+2025-12-14T23:15:29 - INICIO - Servicio iniciado correctamente
+2025-12-14T23:16:12 - INICIO - Servicio iniciado correctamente
+2025-12-14T23:18:10 - INICIO - Servicio iniciado correctamente
+2025-12-14T23:19:10 - ACTUALIZAR - Shampoo: holo, id: 2

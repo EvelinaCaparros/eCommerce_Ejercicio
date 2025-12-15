@@ -13,7 +13,6 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
     - `ShampooService.java`: Lógica de negocio
     - `ShampooController.java`: API REST
     - `EcommerceApplication.java`: Clase principal Spring Boot
-    - `Main.java`: Interfaz de usuario por consola (CLI, obsoleta)
 - `src/test/java/org/example/`: Tests unitarios y plan de pruebas
     - `ShampooRepositorioTest.java`: Tests unitarios con JUnit (obsoletos para la versión JPA)
     - `PLAN_PRUEBAS.md`: Plan de pruebas detallado
@@ -138,12 +137,12 @@ Cada shampoo tiene las siguientes propiedades:
 > **Validaciones y manejo de errores:** El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo. Si el nombre es vacío o nulo, devuelve 400 Bad Request con un mensaje claro.
 
 ## Tests unitarios y plan de pruebas
-- Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooRepositorioTest.java` (obsoleto) y `src/test/java/org/example/ShampooServiceTest.java`.
+- Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooServiceTest.java`.
 - Se cubren casos de creación, validaciones, búsqueda, listado, eliminación y persistencia.
 - El plan de pruebas detallado está en `src/test/java/org/example/PLAN_PRUEBAS.md`.
 - Evidencias en el archivo correspondiente.
 
-## Ejecución de tests (obsoleto)
+## Ejecución de tests
 Para ejecutar los tests unitarios:
 
 ```

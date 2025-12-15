@@ -7,6 +7,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+Estaria bueno sumar:
+- Búsqueda por nombre o filtro avanzado: Permitir buscar por nombre, rango de precio, stock, etc.
+- Paginación y ordenamiento
+- Actualizar solo campos específicos (PATCH). Màs comodo para el FE tambien.
+ */
+
 @RestController
 @RequestMapping("/api/shampoos")
 public class ShampooController {
@@ -75,9 +82,12 @@ public class ShampooController {
             });
         }
         if (existente.getEstado() == 0) {
+            // Logueo el intento fallido
+            service.actualizarShampoo(id, shampoo.getNombre(), shampoo.getPrecio(), shampoo.getStock());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new Object() {
                 public final int Status = 0;
                 public final String Mensaje = "El producto fue eliminado. Para actualizarlo, primero debe habilitarse nuevamente (ponerlo a la venta).";
+                //TODO esto no se esta logueando. Queda pendiente revisar que màs no se esta logueando =(
             });
         }
         // Validaciones campo nombre
@@ -125,7 +135,7 @@ public class ShampooController {
                 public final int Status = 0;
                 public final String Mensaje = "El producto ya fue previamente eliminado";
             });
-            case NO_EXISTE -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Object() {
+            case NO_ENCONTRADO -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Object() {
                 public final int Status = 0;
                 public final String Mensaje = "El producto no existe";
             });
@@ -165,7 +175,7 @@ public class ShampooController {
                 public final int Status = 0;
                 public final String Mensaje = "El producto ya estaba habilitado";
             });
-            case NO_EXISTE -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Object() {
+            case NO_ENCONTRADO -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Object() {
                 public final int Status = 0;
                 public final String Mensaje = "El producto no existe";
             });
