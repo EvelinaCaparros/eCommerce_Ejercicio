@@ -1,7 +1,7 @@
 # Ejemplo de eCommerce
 
 ## Descripción
-Este proyecto es un ejemplo básico de una aplicación de comercio electrónico (eCommerce) desarrollada en Java y Spring Boot. Permite la gestión de productos (shampoos) con operaciones CRUD, persistencia en archivo y una API REST.
+Este proyecto es un ejemplo básico de una aplicación de comercio electrónico (eCommerce) desarrollada en Java y Spring Boot. Permite la gestión de productos (shampoos) con operaciones CRUD, persistencia en base de datos PostgreSQL y una API REST.
 
 ## Autor
 - Evelina Caparrós
@@ -9,15 +9,15 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
 ## Estructura del proyecto
 - `src/main/java/org/example/`: Código fuente principal
     - `Shampoo.java`: Clase modelo de producto
-    - `ShampooRepositorio.java`: Acceso a datos y persistencia, con validaciones y manejo robusto de errores
+    - `ShampooRepositorio.java`: Acceso a datos y persistencia con JPA/PostgreSQL
     - `ShampooService.java`: Lógica de negocio
     - `ShampooController.java`: API REST
     - `EcommerceApplication.java`: Clase principal Spring Boot
-    - `Main.java`: Interfaz de usuario por consola (CLI)
+    - `Main.java`: Interfaz de usuario por consola (CLI, obsoleta)
 - `src/test/java/org/example/`: Tests unitarios y plan de pruebas
-    - `ShampooRepositorioTest.java`: Tests unitarios con JUnit
+    - `ShampooRepositorioTest.java`: Tests unitarios con JUnit (obsoletos para la versión JPA)
     - `PLAN_PRUEBAS.md`: Plan de pruebas detallado
-- `lista de shampoos`: Archivo de persistencia de productos
+- `esquema_tabla_shampoos_postgres.txt`: Esquema SQL y tips para la base de datos PostgreSQL
 
 ## Propiedades de un Shampoo
 Cada shampoo tiene las siguientes propiedades:
@@ -137,8 +137,8 @@ Cada shampoo tiene las siguientes propiedades:
 ## Validaciones y manejo de errores
 - El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo.
 - Si los datos son inválidos, se lanza una excepción clara y no se guarda el producto.
-- El manejo de archivos es atómico y seguro: si ocurre un error de escritura o lectura, se lanza una excepción y no se pierden datos previos.
-- El repositorio permite inyectar el nombre del archivo, facilitando los tests unitarios y la portabilidad.
+- El manejo de la base de datos es atómico y seguro: si ocurre un error de escritura o lectura, se lanza una excepción y no se pierden datos previos.
+- El repositorio permite inyectar el nombre de la base de datos, facilitando los tests unitarios y la portabilidad.
 
 ## Tests unitarios y plan de pruebas
 - Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooRepositorioTest.java`.
@@ -154,7 +154,7 @@ Cada shampoo tiene las siguientes propiedades:
 - El campo `estado` solo permite dos valores: `1` (habilitado) y `0` (eliminado lógicamente).
 - No hay control de fechas de alta, baja ni modificación.
 - No se maneja historial de cambios ni auditoría.
-- El archivo `lista de shampoos` es la única fuente de persistencia (no hay base de datos relacional-por ahora-).
+- La base de datos PostgreSQL es la única fuente de persistencia (no hay base de datos relacional-por ahora-).
 - No se contemplan impuestos, descuentos ni promociones.
 - No hay validación de formato para caracteres especiales en el nombre.
 
@@ -184,15 +184,15 @@ Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooR
 
 - ShampooController: expone endpoints REST para CRUD de shampoos.
 - ShampooService: contiene la lógica de negocio y validaciones.
-- ShampooRepositorio: gestiona la persistencia en archivo y validaciones de datos.
+- ShampooRepositorio: gestiona la persistencia en base de datos PostgreSQL y validaciones de datos.
 - Shampoo: entidad de dominio con atributos id, nombre, precio, stock, estado.
 - ResultadoEliminacion: enum para el resultado de operaciones de borrado.
 - Main: interfaz CLI para pruebas manuales.
-- El flujo típico es: Controller → Service → Repositorio → Archivo.
-- El archivo de persistencia es plano, cada línea representa un shampoo.
+- El flujo típico es: Controller → Service → Repositorio → Base de datos.
+- La base de datos es PostgreSQL, con tabla `shampoos` que tiene los campos correspondientes.
 - Los tests unitarios validan la lógica del repositorio y la persistencia.
 
-- Para migrar a base de datos PostgreSQL, consulta el archivo `esquema_tabla_shampoos_postgres.txt` incluido en la raíz del proyecto. Allí encontrarás:
+- Para migrar a otra base de datos, consulta el archivo `esquema_tabla_shampoos_postgres.txt` incluido en la raíz del proyecto. Allí encontrarás:
   - Query SQL para crear la tabla.
   - Descripción campo a campo.
   - Ejemplo de query INSERT y UPDATE.
