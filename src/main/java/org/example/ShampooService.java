@@ -18,6 +18,9 @@ public class ShampooService {
 
     // Crear shampoo nuevo (estado habilitado por defecto)
     public Shampoo crearShampoo(String nombre, double precio, int stock) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede ser vacío ni nulo");
+        }
         Shampoo shampoo = new Shampoo();
         shampoo.setNombre(nombre);
         shampoo.setPrecio(precio);
@@ -41,6 +44,9 @@ public class ShampooService {
     public Shampoo actualizarShampoo(int id, String nombre, double precio, int stock) {
         Shampoo shampoo = buscarShampoo(id);
         if (shampoo != null && shampoo.getEstado() == 1) {
+            if (nombre == null || nombre.trim().isEmpty()) {
+                throw new IllegalArgumentException("El nombre no puede ser vacío ni nulo");
+            }
             shampoo.setNombre(nombre);
             shampoo.setPrecio(precio);
             shampoo.setStock(stock);

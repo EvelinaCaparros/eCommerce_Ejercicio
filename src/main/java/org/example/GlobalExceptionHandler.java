@@ -88,6 +88,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(body);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now().toString());
+        body.put("status", 400);
+        body.put("error", "Bad Request");
+        body.put("message", ex.getMessage());
+        String path = null;
+        if (request instanceof ServletWebRequest servletWebRequest) {
+            path = servletWebRequest.getRequest().getRequestURI();
+        }
+        body.put("path", path);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {

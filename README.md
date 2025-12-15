@@ -56,13 +56,15 @@ Cada shampoo tiene las siguientes propiedades:
   - 500 Internal Server Error: Error inesperado en el servidor
   - 405 Method Not Allowed: Método HTTP incorrecto
 
-### 2. Listar shampoos habilitados
+### 2. Listar shampoos habilitados y deshabilitados
 - **Método:** GET
 - **URL:** `/api/shampoos`
 - **Curl:**
   ```bash
   curl http://localhost:8080/api/shampoos
   ```
+> **Nota:** Pendiente sumar discriminacion entre habilitados y deshabilitados.
+
 - **Ejemplo de respuesta exitosa:**
   ```json
   [
@@ -135,12 +137,12 @@ Cada shampoo tiene las siguientes propiedades:
   - 405 Method Not Allowed: Método HTTP incorrecto
 
 ## Validaciones y manejo de errores
-- El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo.
+- El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo. Si el nombre es vacío o nulo, devuelve 400 Bad Request con un mensaje claro.
 - Si los datos son inválidos, se lanza una excepción clara y no se guarda el producto.
 - El manejo de la base de datos es atómico y seguro: si ocurre un error de escritura o lectura, se lanza una excepción y no se pierden datos previos.
 
-## Tests unitarios y plan de pruebas (obsoleto)
-- Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooRepositorioTest.java`.
+## Tests unitarios y plan de pruebas
+- Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooRepositorioTest.java` (obsoleto) y `src/test/java/org/example/ShampooServiceTest.java`.
 - Se cubren casos de creación, validaciones, búsqueda, listado, eliminación y persistencia.
 - El plan de pruebas detallado está en `src/test/java/org/example/PLAN_PRUEBAS.md`.
 
@@ -178,22 +180,8 @@ mvn test
 
 Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooRepositorioTest.java` y validará la robustez del repositorio.
 
-## Texto para armar gráfico UML (pendiente actualizar el diagrama UML)
-
-- ShampooController: expone endpoints REST para CRUD de shampoos.
-- ShampooService: contiene la lógica de negocio y validaciones.
-- ShampooRepositorio: gestiona la persistencia en base de datos PostgreSQL y validaciones de datos.
-- Shampoo: entidad de dominio con atributos id, nombre, precio, stock, estado.
-- ResultadoEliminacion: enum para el resultado de operaciones de borrado.
-- Main: interfaz CLI para pruebas manuales.
-- El flujo típico es: Controller → Service → Repositorio → Base de datos.
-- La base de datos es PostgreSQL, con tabla `shampoos` que tiene los campos correspondientes.
-- Los tests unitarios validan la lógica del repositorio y la persistencia.
-
-- Para migrar a otra base de datos, consulta el archivo `esquema_tabla_shampoos_postgres.txt` incluido en la raíz del proyecto. Allí encontrarás:
-  - Query SQL para crear la tabla.
-  - Descripción campo a campo.
-  - Ejemplo de query INSERT y UPDATE.
+## Diagrama UML
+![Diagrama UML](UML.png)
 
 ## Ideas y mejoras a futuro
 

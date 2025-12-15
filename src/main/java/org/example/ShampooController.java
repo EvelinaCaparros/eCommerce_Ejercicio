@@ -19,7 +19,28 @@ public class ShampooController {
 
     // 1. Crear shampoo
     @PostMapping
-    public ResponseEntity<Shampoo> crear(@RequestBody Shampoo shampoo) {
+    public ResponseEntity<?> crear(@RequestBody Shampoo shampoo) {
+        // Validaciones campo nombre
+        if (shampoo.getNombre() == null || shampoo.getNombre().trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Object() {
+                public final int Status = 0;
+                public final String Mensaje = "El campo 'nombre' es obligatorio, debe ser un string no vacío y no puede ser solo espacios.";
+            });
+        }
+        // Validaciones campo precio
+        if (shampoo.getPrecio() < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Object() {
+                public final int Status = 0;
+                public final String Mensaje = "El campo 'precio' es obligatorio, debe ser numérico y no puede ser negativo.";
+            });
+        }
+        // Validaciones campo stock
+        if (shampoo.getStock() < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Object() {
+                public final int Status = 0;
+                public final String Mensaje = "El campo 'stock' es obligatorio, debe ser numérico y no puede ser negativo.";
+            });
+        }
         Shampoo creado = service.crearShampoo(shampoo.getNombre(), shampoo.getPrecio(), shampoo.getStock());
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
@@ -57,6 +78,27 @@ public class ShampooController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new Object() {
                 public final int Status = 0;
                 public final String Mensaje = "El producto fue eliminado. Para actualizarlo, primero debe habilitarse nuevamente (ponerlo a la venta).";
+            });
+        }
+        // Validaciones campo nombre
+        if (shampoo.getNombre() == null || shampoo.getNombre().trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Object() {
+                public final int Status = 0;
+                public final String Mensaje = "El campo 'nombre' es obligatorio, debe ser un string no vacío y no puede ser solo espacios.";
+            });
+        }
+        // Validaciones campo precio
+        if (shampoo.getPrecio() < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Object() {
+                public final int Status = 0;
+                public final String Mensaje = "El campo 'precio' es obligatorio, debe ser numérico y no puede ser negativo.";
+            });
+        }
+        // Validaciones campo stock
+        if (shampoo.getStock() < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Object() {
+                public final int Status = 0;
+                public final String Mensaje = "El campo 'stock' es obligatorio, debe ser numérico y no puede ser negativo.";
             });
         }
         Shampoo actualizado = service.actualizarShampoo(id, shampoo.getNombre(), shampoo.getPrecio(), shampoo.getStock());
