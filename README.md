@@ -199,7 +199,7 @@ Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooR
 
 - Soporte para imágenes de shampoo (guardar, actualizar y devolver en las APIs).
 - Autenticación y control de usuarios. Controlado tambien por el FE.
-- Paginación y filtros avanzados en los listados.
+- Paginación y filtros avanzados en los listados. Puede ordenar por habilitado y deshabilitado y dentro ordenado por ID. Si se suma categoria, podria sumarse eso tambien.
 - Validación de unicidad de nombre de shampoo en backend.
 - Soporte para múltiples monedas y conversión de precios.
 - Gestión de categorías y marcas de shampoo.
