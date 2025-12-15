@@ -28,7 +28,7 @@ Cada shampoo tiene las siguientes propiedades:
 - `estado` (int): Estado lógico del producto:
     - `1`: habilitado (activo, visible en listados principales)
     - `0`: deshabilitado (eliminado lógicamente, solo visible en listados de eliminados)
-> **Nota:** Si intentas modificar un producto en estado 0, la operación será ignorada y no se realizará ningún cambio. Primero debes habilitarlo (cambiar a estado 1).
+> **Nota:** Si intentas modificar un producto en estado 0, la operación será ignorada arrojando una advertencia y no se realizará ningún cambio. Primero debes habilitarlo (cambiar a estado 1).
 
 ## Endpoints de la API y ejemplos de uso
 
