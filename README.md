@@ -14,7 +14,7 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
     - `ShampooController.java`: API REST
     - `EcommerceApplication.java`: Clase principal Spring Boot
 - `src/test/java/org/example/`: Tests unitarios y plan de pruebas
-    - `ShampooRepositorioTest.java`: Tests unitarios con JUnit (obsoletos para la versión JPA)
+    - `ShampooServiceTest.java`: Tests unitarios con JUnit
     - `PLAN_PRUEBAS.md`: Plan de pruebas detallado
 - `esquema_tabla_shampoos_postgres.txt`: Esquema SQL y tips para la base de datos PostgreSQL
 
@@ -191,3 +191,4 @@ Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooR
 - Documentación Swagger para la API REST.
 - Mejor manejo de errores y mensajes personalizados para todos los casos.
 - Frontend web.
+- Y mucho màs! 😄
