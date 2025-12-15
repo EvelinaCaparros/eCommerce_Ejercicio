@@ -1,4 +1,4 @@
-# Plan de Pruebas para ShampooRepositorio
+# Plan de Pruebas
 
 ## Objetivo
 Asegurar la robustez, integridad de datos y correcto manejo de errores del repositorio de shampoos.
