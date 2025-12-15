@@ -1,10 +1,24 @@
 package org.example;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "shampoos")
 public class Shampoo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "nombre", nullable = false)
     private String nombre;
+
+    @Column(name = "precio", nullable = false)
     private double precio;
+
+    @Column(name = "stock", nullable = false)
     private int stock; //por unidad, no por caja (una caja 6 shampoo?)
+
+    @Column(name = "estado", nullable = false)
     private int estado; // 1 = habilitado, 0 = deshabilitado (eliminado lógicamente)
 
     //Constructor para setear los valores
@@ -25,7 +39,7 @@ public class Shampoo {
         this.estado = estado;
     }
 
-    // Constructor vacío necesario para deserialización JSON
+    // Constructor vacío necesario para JPA y deserialización JSON
     public Shampoo() {}
 
     //Getters para obtener los valores
@@ -42,7 +56,6 @@ public class Shampoo {
     public void setStock(int stock) { this.stock = stock; }
     public void setEstado(int estado) { this.estado = estado; }
 
-    //que no use el toString de java, sino que use lo que defino acá
     @Override
     public String toString() {
         return "Shampoo{" +

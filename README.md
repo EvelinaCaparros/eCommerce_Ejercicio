@@ -9,24 +9,141 @@ Este proyecto es un ejemplo básico de una aplicación de comercio electrónico 
 ## Estructura del proyecto
 - `src/main/java/org/example/`: Código fuente principal
     - `Shampoo.java`: Clase modelo de producto
-    - `ShampooRepositorio.java`: Acceso a datos y persistencia
+    - `ShampooRepositorio.java`: Acceso a datos y persistencia, con validaciones y manejo robusto de errores
     - `ShampooService.java`: Lógica de negocio
     - `ShampooController.java`: API REST
     - `EcommerceApplication.java`: Clase principal Spring Boot
     - `Main.java`: Interfaz de usuario por consola (CLI)
+- `src/test/java/org/example/`: Tests unitarios y plan de pruebas
+    - `ShampooRepositorioTest.java`: Tests unitarios con JUnit
+    - `PLAN_PRUEBAS.md`: Plan de pruebas detallado
 - `lista de shampoos`: Archivo de persistencia de productos
 
 ## Propiedades de un Shampoo
 Cada shampoo tiene las siguientes propiedades:
 - `id` (int): Identificador único del producto.
-- `nombre` (String): Nombre del shampoo.
-- `precio` (double): Precio unitario.
-- `stock` (int): Cantidad disponible en stock.
+- `nombre` (String): Nombre del shampoo (no puede ser vacío ni nulo).
+- `precio` (double): Precio unitario (no puede ser negativo).
+- `stock` (int): Cantidad disponible en stock (no puede ser negativo).
 - `estado` (int): Estado lógico del producto:
     - `1`: habilitado (activo, visible en listados principales)
     - `0`: deshabilitado (eliminado lógicamente, solo visible en listados de eliminados)
+> **Nota:** Si intentas modificar un producto en estado 0, la operación será ignorada y no se realizará ningún cambio. Primero debes habilitarlo (cambiar a estado 1).
 
-Al listar, solo se muestran los shampoos habilitados (`estado = 1`). Los eliminados pueden consultarse aparte mediante el endpoint correspondiente.
+## Endpoints de la API y ejemplos de uso
+
+### 1. Crear shampoo
+- **Método:** POST
+- **URL:** `/api/shampoos`
+- **Curl:**
+  ```bash
+  curl -X POST http://localhost:8080/api/shampoos \
+    -H "Content-Type: application/json" \
+    -d '{"nombre": "Head & Shoulders", "precio": 123.45, "stock": 10}'
+  ```
+- **Ejemplo de respuesta exitosa:**
+  ```json
+  {
+    "id": 1,
+    "nombre": "Head & Shoulders",
+    "precio": 123.45,
+    "stock": 10,
+    "estado": 1
+  }
+  ```
+- **Errores posibles:**
+  - 400 Bad Request: Datos inválidos (nombre vacío, precio/stock negativo)
+  - 500 Internal Server Error: Error inesperado en el servidor
+  - 405 Method Not Allowed: Método HTTP incorrecto
+
+### 2. Listar shampoos habilitados
+- **Método:** GET
+- **URL:** `/api/shampoos`
+- **Curl:**
+  ```bash
+  curl http://localhost:8080/api/shampoos
+  ```
+- **Ejemplo de respuesta exitosa:**
+  ```json
+  [
+    {"id": 1, "nombre": "Head & Shoulders", "precio": 123.45, "stock": 10, "estado": 1},
+    {"id": 2, "nombre": "Pantene", "precio": 99.99, "stock": 5, "estado": 1}
+  ]
+  ```
+- **Errores posibles:**
+  - 500 Internal Server Error: Error inesperado en el servidor
+  - 405 Method Not Allowed: Método HTTP incorrecto
+
+### 3. Buscar shampoo por ID
+- **Método:** GET
+- **URL:** `/api/shampoos/{id}`
+- **Curl:**
+  ```bash
+  curl http://localhost:8080/api/shampoos/1
+  ```
+- **Ejemplo de respuesta exitosa:**
+  ```json
+  {"id": 1, "nombre": "Head & Shoulders", "precio": 123.45, "stock": 10, "estado": 1}
+  ```
+- **Errores posibles:**
+  - 404 Not Found: No existe el shampoo con ese ID
+  - 500 Internal Server Error: Error inesperado en el servidor
+  - 405 Method Not Allowed: Método HTTP incorrecto
+
+### 4. Actualizar shampoo
+- **Método:** PUT
+- **URL:** `/api/shampoos/{id}`
+- **Curl:**
+  ```bash
+  curl -X PUT http://localhost:8080/api/shampoos/1 \
+    -H "Content-Type: application/json" \
+    -d '{"nombre": "Nuevo Nombre", "precio": 150.0, "stock": 8}'
+  ```
+- **Ejemplo de respuesta exitosa:**
+  ```json
+  {"id": 1, "nombre": "Nuevo Nombre", "precio": 150.0, "stock": 8, "estado": 1}
+  ```
+- **Errores posibles:**
+  - 404 Not Found: No existe el shampoo con ese ID
+  - 409 Conflict: El producto fue eliminado. Para actualizarlo, primero debe habilitarse nuevamente (ponerlo a la venta).
+    - **Ejemplo de respuesta:**
+      ```json
+      {
+        "Status": 0,
+        "Mensaje": "El producto fue eliminado. Para actualizarlo, primero debe habilitarse nuevamente (ponerlo a la venta)."
+      }
+      ```
+  - 400 Bad Request: Datos inválidos
+  - 500 Internal Server Error: Error inesperado en el servidor
+  - 405 Method Not Allowed: Método HTTP incorrecto
+
+### 5. Eliminar shampoo (eliminación lógica)
+- **Método:** DELETE
+- **URL:** `/api/shampoos/{id}`
+- **Curl:**
+  ```bash
+  curl -X DELETE http://localhost:8080/api/shampoos/1
+  ```
+- **Ejemplo de respuesta exitosa:**
+  ```json
+  {"resultado": "ELIMINADO"}
+  ```
+- **Errores posibles:**
+  - 404 Not Found: No existe el shampoo con ese ID
+  - 410 Gone: El shampoo ya estaba eliminado
+  - 500 Internal Server Error: Error inesperado en el servidor
+  - 405 Method Not Allowed: Método HTTP incorrecto
+
+## Validaciones y manejo de errores
+- El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo.
+- Si los datos son inválidos, se lanza una excepción clara y no se guarda el producto.
+- El manejo de archivos es atómico y seguro: si ocurre un error de escritura o lectura, se lanza una excepción y no se pierden datos previos.
+- El repositorio permite inyectar el nombre del archivo, facilitando los tests unitarios y la portabilidad.
+
+## Tests unitarios y plan de pruebas
+- Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooRepositorioTest.java`.
+- Se cubren casos de creación, validaciones, búsqueda, listado, eliminación y persistencia.
+- El plan de pruebas detallado está en `src/test/java/org/example/PLAN_PRUEBAS.md`.
 
 ## Supuestos y limitaciones del sistema
 
@@ -48,152 +165,48 @@ Al listar, solo se muestran los shampoos habilitados (`estado = 1`). Los elimina
 - Controlar que los campos obligatorios estén completos y sean válidos.
 - Manejar errores del backend mostrando mensajes amigables.
 - Evitar envíos múltiples deshabilitando el botón de guardar durante la petición.
-- Filtrar y no mostrar shampoos con estado eliminado (`estado = 0`).
+- **Importante:** Los endpoints que reciben un parámetro `{id}` en la URL (por ejemplo, `/api/shampoos/{id}`) requieren que el valor sea un número entero positivo. Si se envía un valor no numérico o con caracteres especiales (por ejemplo, `/api/shampoos/%` o `/api/shampoos/$$%`), el servidor web (Tomcat) puede rechazar la petición antes de que llegue a la aplicación, devolviendo una página HTML de error 400 en vez de un JSON. 
+  - Valida en el frontend que el ID sea un número antes de enviar la petición.
+  - No uses caracteres especiales en la URL.
+  - Si recibes una respuesta HTML de error 400, revisa que el parámetro sea un número válido.
+  - Este comportamiento es estándar en servidores Java y no puede ser interceptado por el backend.
 
-## Datos de prueba sugeridos
+## Ejecución de tests
+Para ejecutar los tests unitarios:
+
 ```
-1,Head & Shoulders,200.0,20,1
-2,Sedal,50.0,0,1
-3,Pantene,120.5,100,0
-4,Clear Men,80.0,5,1
-5,Herbal Essences,300.0,999999,1
-6,Shampoo Económico,10.0,1,1
-7,Shampoo Premium,999.99,2,1
-8,Shampoo Eliminado,25.0,50,0
-9,Repetido,44.0,987654321,1
-10,Repetido,44.0,987654321,1
-11,Sin Stock,15.0,0,1
-12,Ultra Barato,1.0,1000,1
-13,Ultra Caro,10000.0,3,1
-14,Nombre Largo de Prueba para Shampoo,55.5,10,1
-15,ShampooConCaracteresEspeciales@#%!,60.0,7,1
-```
-- Incluye nombres únicos, precios extremos, stock en cero, productos eliminados y repetidos, nombres largos y caracteres especiales.
-
-## Cómo iniciar la aplicación
-
-### Opción 1: Interfaz por consola (Java puro)
-1. Compila el proyecto:
-   ```sh
-   mvn clean install
-   ```
-2. Ejecuta la aplicación por consola:
-   ```sh
-   java -cp target/eCommerce_Ejercicio-1.0-SNAPSHOT.jar org.example.Main
-   ```
-
-### Opción 2: API REST con Spring Boot
-1. Instala las dependencias:
-   ```sh
-   mvn clean install
-   ```
-2. Inicia la aplicación Spring Boot:
-   ```sh
-   mvn spring-boot:run
-   ```
-3. La API estará disponible en: [http://localhost:8080/api/shampoos](http://localhost:8080/api/shampoos)
-
-## Cómo correr los tests unitarios
-Para ejecutar los tests unitarios del proyecto, usa el siguiente comando:
-```sh
 mvn test
 ```
-Esto ejecutará todos los tests definidos en la carpeta `src/test/java` y mostrará un resumen de los resultados en la consola.
 
-## Endpoints y ejemplos curl
-### 1. Crear shampoo
-```sh
-curl -X POST http://localhost:8080/api/shampoos -H "Content-Type: application/json" -d '{"nombre":"Head & Shoulders","precio":123.45,"stock":10}'
-```
-### 2. Listar shampoos habilitados
-```sh
-curl http://localhost:8080/api/shampoos
-```
-### 3. Buscar shampoo por ID
-```sh
-curl http://localhost:8080/api/shampoos/1
-```
-### 4. Actualizar shampoo
-```sh
-curl -X PUT http://localhost:8080/api/shampoos/1 -H "Content-Type: application/json" -d '{"nombre":"Nuevo Nombre","precio":200.0,"stock":20}'
-```
-### 5. Eliminar shampoo (lógico)
-```sh
-curl -X DELETE http://localhost:8080/api/shampoos/1
-```
-### 6. Eliminar todos los shampoos (lógico)
-```sh
-curl -X DELETE http://localhost:8080/api/shampoos
-```
-### 7. Listar shampoos eliminados
-```sh
-curl http://localhost:8080/api/shampoos/eliminados
-```
+Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooRepositorioTest.java` y validará la robustez del repositorio.
 
-## Diagrama UML
-Puedes generar el diagrama actualizado de clases con PlantUML:
-1. Ve a: https://www.plantuml.com/plantuml
-2. Pega el siguiente texto en el editor:
-```plantuml
-@startuml
-class Shampoo {
-    - int id
-    - String nombre
-    - double precio
-    - int stock
-    - int estado
-    + Shampoo()
-    + Shampoo(int, String, double, int)
-    + Shampoo(int, String, double, int, int)
-    + getters/setters
-}
+## Texto para armar gráfico UML
 
-class ShampooRepositorio {
-    - Map<Integer, Shampoo> shampoos
-    - int nextId
-    - String archivo
-    + guardar(Shampoo): Shampoo
-    + buscarPorID(int): Shampoo
-    + buscarTodos(): List<Shampoo>
-    + buscarEliminados(): List<Shampoo>
-    + borrarPorID(int): boolean
-    + borrarTodos(): void
-}
+- ShampooController: expone endpoints REST para CRUD de shampoos.
+- ShampooService: contiene la lógica de negocio y validaciones.
+- ShampooRepositorio: gestiona la persistencia en archivo y validaciones de datos.
+- Shampoo: entidad de dominio con atributos id, nombre, precio, stock, estado.
+- ResultadoEliminacion: enum para el resultado de operaciones de borrado.
+- Main: interfaz CLI para pruebas manuales.
+- El flujo típico es: Controller → Service → Repositorio → Archivo.
+- El archivo de persistencia es plano, cada línea representa un shampoo.
+- Los tests unitarios validan la lógica del repositorio y la persistencia.
 
-class ShampooService {
-    - ShampooRepositorio repository
-    + crearShampoo(String, double, int): Shampoo
-    + listarShampoos(): List<Shampoo>
-    + listarShampoosEliminados(): List<Shampoo>
-    + buscarShampoo(int): Shampoo
-    + actualizarShampoo(int, String, double, int): Shampoo
-    + eliminarShampoo(int): boolean
-}
+- Para migrar a base de datos PostgreSQL, consulta el archivo `esquema_tabla_shampoos_postgres.txt` incluido en la raíz del proyecto. Allí encontrarás:
+  - Query SQL para crear la tabla.
+  - Descripción campo a campo.
+  - Ejemplo de query INSERT y UPDATE.
 
-class ShampooController {
-    - ShampooService service
-    + crear(Shampoo): Shampoo
-    + listar(): List<Shampoo>
-    + buscarPorId(int): Shampoo
-    + actualizar(int, Shampoo): Shampoo
-    + eliminar(int): boolean
-    + eliminarTodos(): void
-    + listarEliminados(): List<Shampoo>
-}
+## Ideas y mejoras a futuro
 
-class EcommerceApplication {
-    + main(String[]): void
-}
-
-class Main {
-    + main(String[]): void
-}
-
-ShampooService --> ShampooRepositorio
-ShampooController --> ShampooService
-EcommerceApplication ..> ShampooController
-Main ..> ShampooService
-Main ..> ShampooRepositorio
-@enduml
-```
-Esto generará un diagrama de clases actualizado con las relaciones y atributos principales del sistema.
+- Soporte para imágenes de shampoo (guardar, actualizar y devolver en las APIs).
+- Autenticación y control de usuarios. Controlado tambien por el FE.
+- Paginación y filtros avanzados en los listados.
+- Validación de unicidad de nombre de shampoo en backend.
+- Soporte para múltiples monedas y conversión de precios.
+- Gestión de categorías y marcas de shampoo.
+- API para carga masiva de productos.
+- Documentación Swagger para la API REST.
+- Tests de integración y de endpoints REST.
+- Mejor manejo de errores y mensajes personalizados para todos los casos.
+- Frontend web.

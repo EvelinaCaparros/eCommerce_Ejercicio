@@ -1,0 +1,48 @@
+# Esquema de tabla para PostgreSQL: shampoos
+
+## Query para crear la tabla
+
+```sql
+CREATE TABLE shampoos (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    precio NUMERIC(10,2) NOT NULL CHECK (precio >= 0),
+    stock INTEGER NOT NULL CHECK (stock >= 0),
+    estado SMALLINT NOT NULL DEFAULT 1
+);
+```
+
+## Sincronizar la secuencia del autoincremental
+
+Si insertaste datos manualmente, restauraste datos, o borraste filas, la secuencia puede quedar desfasada y provocar errores de llave duplicada. Para alinear la secuencia con el máximo id actual de la tabla, ejecuta:
+
+```sql
+SELECT setval('shampoos_id_seq', (SELECT MAX(id) FROM shampoos));
+```
+
+Esto asegura que el próximo id generado será uno mayor al máximo id existente y evita errores de restricción de unicidad.
+
+## Descripción de los campos
+
+| Campo   | Tipo           | Restricciones                        | Descripción                                 |
+|---------|----------------|--------------------------------------|---------------------------------------------|
+| id      | SERIAL         | PRIMARY KEY                          | Identificador único autoincremental         |
+| nombre  | VARCHAR(100)   | NOT NULL                             | Nombre del shampoo                          |
+| precio  | NUMERIC(10,2)  | NOT NULL, CHECK (precio >= 0)        | Precio unitario, no puede ser negativo      |
+| stock   | INTEGER        | NOT NULL, CHECK (stock >= 0)         | Cantidad disponible, no puede ser negativo  |
+| estado  | SMALLINT       | NOT NULL, DEFAULT 1                  | 1=habilitado, 0=eliminado lógicamente       |
+
+## Ejemplo de query INSERT
+
+```sql
+INSERT INTO shampoos (nombre, precio, stock, estado)
+VALUES ('Head & Shoulders', 123.45, 10, 1);
+```
+
+## Ejemplo de query UPDATE
+
+```sql
+UPDATE shampoos
+SET nombre = 'Nuevo Nombre', precio = 150.00, stock = 8
+WHERE id = 1;
+```
