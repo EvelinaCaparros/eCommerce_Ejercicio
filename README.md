@@ -138,9 +138,8 @@ Cada shampoo tiene las siguientes propiedades:
 - El backend valida que el nombre no sea vacío o nulo, el precio no sea negativo y el stock no sea negativo.
 - Si los datos son inválidos, se lanza una excepción clara y no se guarda el producto.
 - El manejo de la base de datos es atómico y seguro: si ocurre un error de escritura o lectura, se lanza una excepción y no se pierden datos previos.
-- El repositorio permite inyectar el nombre de la base de datos, facilitando los tests unitarios y la portabilidad.
 
-## Tests unitarios y plan de pruebas
+## Tests unitarios y plan de pruebas (obsoleto)
 - Los tests unitarios están implementados con JUnit en `src/test/java/org/example/ShampooRepositorioTest.java`.
 - Se cubren casos de creación, validaciones, búsqueda, listado, eliminación y persistencia.
 - El plan de pruebas detallado está en `src/test/java/org/example/PLAN_PRUEBAS.md`.
@@ -154,7 +153,6 @@ Cada shampoo tiene las siguientes propiedades:
 - El campo `estado` solo permite dos valores: `1` (habilitado) y `0` (eliminado lógicamente).
 - No hay control de fechas de alta, baja ni modificación.
 - No se maneja historial de cambios ni auditoría.
-- La base de datos PostgreSQL es la única fuente de persistencia (no hay base de datos relacional-por ahora-).
 - No se contemplan impuestos, descuentos ni promociones.
 - No hay validación de formato para caracteres especiales en el nombre.
 
@@ -169,9 +167,9 @@ Cada shampoo tiene las siguientes propiedades:
   - Valida en el frontend que el ID sea un número antes de enviar la petición.
   - No uses caracteres especiales en la URL.
   - Si recibes una respuesta HTML de error 400, revisa que el parámetro sea un número válido.
-  - Este comportamiento es estándar en servidores Java y no puede ser interceptado por el backend.
+  - Este comportamiento es estándar en servidores Java y no puede ser interceptado por el backend. (Juro lo intenté)
 
-## Ejecución de tests
+## Ejecución de tests (obsoleto)
 Para ejecutar los tests unitarios:
 
 ```
@@ -180,7 +178,7 @@ mvn test
 
 Esto ejecutará todos los tests definidos en `src/test/java/org/example/ShampooRepositorioTest.java` y validará la robustez del repositorio.
 
-## Texto para armar gráfico UML
+## Texto para armar gráfico UML (pendiente actualizar el diagrama UML)
 
 - ShampooController: expone endpoints REST para CRUD de shampoos.
 - ShampooService: contiene la lógica de negocio y validaciones.
